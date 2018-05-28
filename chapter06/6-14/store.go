@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jmoiron/sqlx"
+	"database/sql"
 	"errors"
 	"fmt"
 	_ "github.com/lib/pq"
@@ -10,23 +10,49 @@ import (
 type Post struct {
 	Id       int
 	Content  string
-	AuthorName  string `db: author`
+	Author   string
+	Comments []Comment
 }
 
-var Db *sqlx.DB
+type Comment struct {
+	Id      int
+	Content string
+	Author  string
+	Post    *Post
+}
+
+var Db *sql.DB
 
 func init() {
 	var err error
-	Db, err = sqlx.Open("postgres", "host=10.130.10.156 user=gwp dbname=gwp password=123456 sslmode=disable")
+	Db, err = sql.Open("postgres", "host=10.130.10.156 user=gwp dbname=gwp password=123456 sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
 }
 
+func (c *Comment) Create() (err error) {
+	if c.Post == nil {
+		err = errors.New("Post not found")
+		return
+	}
+	err = Db.QueryRow("insert into comments (content, author, post_id)"+
+		"values ($1, $2, $3) returning id", c.Content, c.Author, c.Post.Id).Scan(&c.Id)
+	return
+}
+
 func Posts(limit int) (posts []Post, err error) {
-	rows, err := Db.QueryRowx("select id, content, author from posts limit $1", limit)
+	rows, err := Db.Query("select id, content, author from posts limit $1", limit)
 	if err != nil {
 		panic(err)
+	}
+	for rows.Next() {
+		post := Post{}
+		err = rows.Scan(&post.Id, &post.Content, &post.Author)
+		if err != nil {
+			return
+		}
+		posts = append(posts, post)
 	}
 	rows.Close()
 	return
