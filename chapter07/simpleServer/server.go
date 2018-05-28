@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"strconv"
+	"encoding/json"
+)
 
 type Post struct {
 	Id      int    	`json:"id"`
@@ -35,5 +39,70 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGet(w http.ResponseWriter, r *http.Request) (err error){
+	id, err := strconv.Atoi(r.URL.Path)
+	if err != nil {
+		return
+	}
+	post, err := retrieve(id)
+	if err != nil{
+		return
+	}
+	output, err := json.MarshalIndent(&post, "", "/t/t")
+	if err != nil {
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
+	return
+}
 
+func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
+	len := r.ContentLength
+	body := make([]byte, len)
+	r.Body.Read(body)
+	var post Post
+	json.Unmarshal(body, &post)
+	err = post.create()
+	if err != nil {
+		return
+	}
+	w.WriteHeader(200)
+	return
+}
+
+func handlePut(w http.ResponseWriter, r *http.Request) (err error) {
+	id, err := strconv.Atoi(r.URL.Path)
+	if err != nil {
+		return
+	}
+	post, err := retrieve(id)
+	if err != nil {
+		return
+	}
+	len := r.ContentLength
+	body := make([]byte, len)
+	json.Unmarshal(body, &post)
+	err = post.update()
+	if err != nil {
+		return
+	}
+	w.WriteHeader(200)
+	return
+}
+
+func handleDelete(w http.ResponseWriter, r *http.Request) (err error) {
+	id, err := strconv.Atoi(r.URL.Path)
+	if err != nil {
+		return
+	}
+	post, err := retrieve(id)
+	if err != nil {
+		return
+	}
+	err = post.delete()
+	if err != nil {
+		return
+	}
+	w.WriteHeader(200)
+	return
 }
