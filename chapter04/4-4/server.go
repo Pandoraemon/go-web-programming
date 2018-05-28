@@ -1,8 +1,8 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
 )
 
 func body(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +13,7 @@ func body(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	server := http.Server {
+	server := http.Server{
 		Addr: "127.0.0.1:8080",
 	}
 	http.HandleFunc("/body", body)

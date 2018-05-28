@@ -1,8 +1,8 @@
 package main
 
 import (
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -30,4 +30,3 @@ func main() {
 	fmt.Printf("Read %d bytes from file\n", bytes)
 	fmt.Println(string(read2))
 }
-

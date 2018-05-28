@@ -3,14 +3,14 @@ package main
 import (
 	"bytes"
 	"encoding/gob"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 )
 
 type Post struct {
-	Id int
+	Id      int
 	Content string
-	Author string
+	Author  string
 }
 
 func store(data interface{}, filename string) {
@@ -38,7 +38,6 @@ func load(data interface{}, filename string) {
 		panic(err)
 	}
 }
-
 
 func main() {
 

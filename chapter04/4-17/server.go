@@ -24,8 +24,8 @@ func showMessage(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		rc := http.Cookie{
-			Name: "flash",
-			MaxAge: -1,
+			Name:    "flash",
+			MaxAge:  -1,
 			Expires: time.Unix(1, 0),
 		}
 		http.SetCookie(w, &rc)

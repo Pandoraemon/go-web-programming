@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 )
 
 func process(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +20,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	server := http.Server {
+	server := http.Server{
 		Addr: "127.0.0.1:8080",
 	}
 	http.HandleFunc("/process", process)

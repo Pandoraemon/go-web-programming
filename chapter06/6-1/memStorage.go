@@ -3,9 +3,9 @@ package main
 import "fmt"
 
 type Post struct {
-	Id int
+	Id      int
 	Content string
-	Author string
+	Author  string
 }
 
 var PostById map[int]*Post
@@ -32,7 +32,6 @@ func main() {
 
 	fmt.Println(PostById[1])
 	fmt.Println(PostById[2])
-
 
 	for _, post := range PostByAuthor["Dora"] {
 		fmt.Println(post)

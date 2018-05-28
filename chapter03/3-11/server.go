@@ -1,26 +1,25 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
 )
 
 type HelloHandler struct{}
 
-
-func (h HelloHandler) ServeHTTP (w http.ResponseWriter, r *http.Request) {
+func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello!")
 }
 
 func log(h http.Handler) http.Handler {
-	return http.HandlerFunc (func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Handler called - %T\n", h)
 		h.ServeHTTP(w, r)
 	})
 }
 
 func protect(h http.Handler) http.Handler {
-	return http.HandlerFunc(func (w http.ResponseWriter, r * http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("protect\n")
 		h.ServeHTTP(w, r)
 	})

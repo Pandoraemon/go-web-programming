@@ -1,16 +1,16 @@
 package main
 
 import (
-	"os"
 	"encoding/csv"
-	"strconv"
 	"fmt"
+	"os"
+	"strconv"
 )
 
 type Post struct {
-	Id int
+	Id      int
 	Content string
-	Author string
+	Author  string
 }
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	}
 	defer csvFile.Close()
 
-	allPosts := []Post {
+	allPosts := []Post{
 		Post{Id: 1, Content: "Hello World", Author: "pandoraemon"},
 		Post{Id: 2, Content: "Bonjour Monde!", Author: "Dora"},
 		Post{3, "你好 世界!", "潘多拉"},
@@ -52,7 +52,7 @@ func main() {
 
 	var posts []Post
 	for _, item := range record {
-		id , _ := strconv.ParseInt(item[0], 0, 0)
+		id, _ := strconv.ParseInt(item[0], 0, 0)
 		post := Post{int(id), item[1], item[2]}
 		posts = append(posts, post)
 	}
