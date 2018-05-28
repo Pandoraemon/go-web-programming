@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Post>
+	<Id>1</Id>
+	<Content>Hello World!</Content>
+	<Author>
+		<Id>2</Id>
+		<Name>Sau Sheong</Name>
+	</Author>
+</Post>
