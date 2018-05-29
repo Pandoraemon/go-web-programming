@@ -43,10 +43,10 @@ func main() {
 	xml.Unmarshal(xmlData, &post)
 	fmt.Println(post)
 
-	post = Post {
-		Id: "1",
+	post = Post{
+		Id:      "1",
 		Content: "Hello World!",
-		Author: Author {
+		Author: Author{
 			"2",
 			"Sau Sheong",
 		},
@@ -56,7 +56,7 @@ func main() {
 		fmt.Println("Error marshalling to XML:", err)
 		return
 	}
-	err = ioutil.WriteFile("post_write.xml", []byte(xml.Header + string(output)), 0644)
+	err = ioutil.WriteFile("post_write.xml", []byte(xml.Header+string(output)), 0644)
 	if err != nil {
 		fmt.Println("Error writing XML to file:", err)
 		return

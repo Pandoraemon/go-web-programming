@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 	"time"
-	"github.com/jinzhu/gorm"
 )
 
 type Post struct {
@@ -16,10 +16,10 @@ type Post struct {
 }
 
 type Comment struct {
-	Id      int
-	Content string
-	Author  string `sql: "not null"`
-	PostId    int `sql: "index"`
+	Id        int
+	Content   string
+	Author    string `sql: "not null"`
+	PostId    int    `sql: "index"`
 	CreatedAt time.Time
 }
 

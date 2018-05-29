@@ -1,26 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"encoding/json"
 )
 
 type Post struct {
-	Id      int    `json:"id"`
+	Id      int       `json:"id"`
 	Content string    `json:"content"`
 	Author  Author    `json:"author"`
 	Comment []Comment `json:"comments"`
 }
 
 type Author struct {
-	Id   int `json:"id"`
+	Id   int    `json:"id"`
 	Name string `json:"name"`
 }
 
 type Comment struct {
-	Id      int `json:"id"`
+	Id      int    `json:"id"`
 	Content string `json:"content"`
 	Author  Author `json:"author"`
 }
@@ -41,10 +41,10 @@ func main() {
 	json.Unmarshal(jsonData, &post)
 	fmt.Println(post)
 
-	post = Post {
-		Id: 1,
+	post = Post{
+		Id:      1,
 		Content: "Hello World!",
-		Author: Author {
+		Author: Author{
 			2,
 			"Sau Sheong",
 		},

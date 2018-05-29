@@ -1,15 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
-	"encoding/json"
+	"path"
 )
 
 type Post struct {
-	Id      int    	`json:"id"`
-	Content string  `json:"content"`
-	Author  string 	`json:"author"`
+	Id      int    `json:"id"`
+	Content string `json:"content"`
+	Author  string `json:"author"`
 }
 
 func main() {
@@ -38,16 +39,16 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleGet(w http.ResponseWriter, r *http.Request) (err error){
-	id, err := strconv.Atoi(r.URL.Path)
+func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
+	id, err := strconv.Atoi(path.Base(r.URL.Path))
 	if err != nil {
 		return
 	}
 	post, err := retrieve(id)
-	if err != nil{
+	if err != nil {
 		return
 	}
-	output, err := json.MarshalIndent(&post, "", "/t/t")
+	output, err := json.MarshalIndent(&post, "", "\t")
 	if err != nil {
 		return
 	}
@@ -71,7 +72,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
 }
 
 func handlePut(w http.ResponseWriter, r *http.Request) (err error) {
-	id, err := strconv.Atoi(r.URL.Path)
+	id, err := strconv.Atoi(path.Base(r.URL.Path))
 	if err != nil {
 		return
 	}
@@ -81,6 +82,7 @@ func handlePut(w http.ResponseWriter, r *http.Request) (err error) {
 	}
 	len := r.ContentLength
 	body := make([]byte, len)
+	r.Body.Read(body)
 	json.Unmarshal(body, &post)
 	err = post.update()
 	if err != nil {
@@ -91,7 +93,7 @@ func handlePut(w http.ResponseWriter, r *http.Request) (err error) {
 }
 
 func handleDelete(w http.ResponseWriter, r *http.Request) (err error) {
-	id, err := strconv.Atoi(r.URL.Path)
+	id, err := strconv.Atoi(path.Base(r.URL.Path))
 	if err != nil {
 		return
 	}
